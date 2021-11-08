@@ -10,17 +10,17 @@ def index():
 
 @app.route("/register", methods=["POST"])
 def validate_user():
-    pw_hash = bcrypt.generate_password_hash(request.form["password"])
-    pw_hash = bcrypt.generate_password_hash(request.form["confirm_password"])
-    data = {
-        "first_name":request.form["first_name"],
-        "last_name":request.form["last_name"],
-        "email":request.form["email"],
-        "password":pw_hash,
-        "confirm_password":pw_hash
-    }
-
     if Users.validate_user(request.form):
+        pw_hash = bcrypt.generate_password_hash(request.form["password"])
+        pw_hash = bcrypt.generate_password_hash(request.form["confirm_password"])
+        data = {
+            "first_name":request.form["first_name"],
+            "last_name":request.form["last_name"],
+            "email":request.form["email"],
+            "password":pw_hash,
+            "confirm_password":pw_hash,
+        }
+
         users_id = Users.save(data)
         session["users_id"] = users_id
         # flash("User created!")
